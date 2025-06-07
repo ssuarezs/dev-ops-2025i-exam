@@ -1,0 +1,23 @@
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
+    }
+  }
+}
+
+resource "local_file" "banner" {
+  filename = "banner.txt"
+  content  = <<EOT
+ooooo    oooo                                      .oooooo..o ooooooooo.   oooooooooooo      .oo.        oooooooooo.                           .oooooo.
+`888'    `888                                     d8P'    `Y8 `888   `Y88. `888'     `8    .88' `8.      `888'   `Y8b                         d8P'  `Y8b
+ 888      888   .ooooo.  oooo    ooo  .ooooo.     Y88bo.       888   .d88'  888            88.  .8'       888      888  .ooooo.  oooo    ooo 888      888 oo.ooooo.   .oooo.o
+ 888      888  d88' `88b  `88.  .8'  d88' `88b     `"Y8888o.   888ooo88P'   888oooo8       `88.8P         888      888 d88' `88b  `88.  .8'  888      888  888' `88b d88(  "8
+ 888      888  888   888   `88..8'   888ooo888         `"Y88b  888`88b.     888    "        d888.8'      888      888 888ooo888   `88..8'   888      888  888   888 `"Y88b.
+ 888      888  888   888    `888'    888    .o    oo     .d8P  888  `88b.   888       o    88' `88.       888     d88' 888    .o    `888'    `88b    d88'  888   888 o.  )88b
+o888o    o888o `Y8bod8P'     `8'     `Y8bod8P'    8""88888P'  o888o  o888o o888ooooood8    `bodP'`88.    o888bood8P'   `Y8bod8P'     `8'      `Y8bood8P'   888bod8P' 8""888P'
+                                                                                                                                                           888
+                                                                                                                                                          o888o
+EOT
+}
