@@ -113,9 +113,9 @@ Creates a local ASCII art banner file using Terraform's `local_file` resource.
 
 1. A specific type of Kubernetes API object used to extend its functionality, often associated with custom controllers. (3) — **CRD**
 2. The practice of applying version control to all aspects of infrastructure, not just code. (3) — **IAC**
-3. The concept of designing systems to absorb failure without significant service disruption, often achieved via redundancy. (9) — ****
+3. The concept of designing systems to absorb failure without significant service disruption, often achieved via redundancy. (9) — **RESILIENT**
 4. A CNCF project that provides a declarative way to manage Kubernetes applications, often through helm charts. (4) — **ARGO**
-5. A distributed tracing tool that originates from the OpenTracing and OpenCensus projects. (5) — ****
+5. A distributed tracing tool that originates from the OpenTracing and OpenCensus projects. (5) — **TEMPO**
 6. A specific type of container runtime, a low-level tool that implements the OCI specification. (4) — **RUNC**
 7. A key metric in SRE that quantifies the difference between 100% uptime and the desired reliability. (5,6) — **ERROR BUDGET**
 8. A FinOps practice that allocates cloud costs back to the business units or teams consuming resources. (9) — ****
@@ -123,12 +123,12 @@ Creates a local ASCII art banner file using Terraform's `local_file` resource.
 10. A pattern for delivering applications to a set of users, initially hidden, for testing or performance evaluation. (4,6) — **DARK LAUNCH**
 11. A security practice that involves intentionally introducing faults or attacks to test system resilience. (5,9) — **FAULT INJECTION**
 12. A type of testing that ensures an application behaves correctly when encountering unusual or unexpected inputs. (7) — **FUZZING**
-13. A component of the Linux kernel that isolates processes, foundational to containers. (8) — ****
+13. A component of the Linux kernel that isolates processes, foundational to containers. (8) — **CGROUPFS**
 14. A philosophy advocating continuous small, reversible changes, and valuing empirical evidence over plans. (4) — **LEAN**
 15. A specialized type of database often used for metrics storage in monitoring systems like Prometheus. (7) — **INFLUXD**
 16. A declarative API-driven tool for managing infrastructure state, often used with cloud resources. (9) — **TERRAFORM**
 17. The 'E' in EKS or ECS, referring to managed container services. (8) — ****
-18. A testing phase focused on the communication and interaction between integrated modules. (12) — ****
+18. A testing phase focused on the communication and interaction between integrated modules. (12) — **INTEGRATIONS**
 19. A specific type of automated deployment that routes a small percentage of users to a new version to validate. (6) — **CANARY**
 20. A technique for securing applications by minimizing the attack surface and only allowing necessary functionality. (10) — **SANDBOXING**
 21. The 'R' in ART, often a core responsibility in SRE. (10) — **RELIABILITY**
@@ -160,3 +160,125 @@ Creates a local ASCII art banner file using Terraform's `local_file` resource.
 ---
 
 ## Task 4
+
+### Scenario
+
+Your company, **QuantumLeap Innovations**, is launching a new, highly anticipated e-commerce platform. You are tasked with designing, implementing, and defining the operational strategy for its critical backend services on **Google Cloud Platform**. The initial launch will target a single region, but future expansion to multiple regions is anticipated.
+
+The core backend consists of two primary microservices:
+
+1. **Product Catalog Service (PCS)**: A read-heavy service providing product information. It queries a PostgreSQL database and utilizes a caching layer.
+2. **Order Processing Service (OPS)**: A write-heavy service responsible for handling new orders. It writes to a transactional PostgreSQL database and publishes order events to a message queue for downstream processing (e.g., fulfillment, notifications).
+
+---
+
+### Non-Functional Requirements (NFRs)
+
+- **High Availability**:
+  The system must tolerate zonal outages within the chosen Google Cloud region with minimal impact on user experience. Target 99.95% availability for critical services.
+
+- **Scalability**:
+  The system must automatically scale to handle variable load, from a few thousand concurrent users to peak traffic of 100,000 requests per minute.
+
+- **Reliability**:
+  Order processing must be robust, ensuring no data loss and successful delivery of order events. The system should self-heal where possible.
+
+- **Security**:
+  All components must adhere to the principle of least privilege. Data in transit and at rest must be encrypted. Secrets must be managed securely.
+
+- **Observability**:
+  Comprehensive monitoring, logging, and tracing must be in place to quickly identify and diagnose issues.
+
+- **Cost-Effectiveness**:
+  Design choices should balance performance and reliability with cost optimization.
+
+- **Deployment Velocity**:
+  The team requires a robust CI/CD pipeline for frequent, automated deployments with minimal downtime.
+
+---
+
+### Constraints & Preferences
+
+- **Google Cloud Platform (GCP)**: All infrastructure and services must be deployed on GCP.
+- **Infrastructure as Code (IaC)**: All GCP infrastructure must be defined and managed using Terraform.
+- **Containerization**: Both microservices must be containerized.
+- **Orchestration**: Google Kubernetes Engine (GKE) is the preferred container orchestration platform.
+- **CI/CD**: Use Cloud Build for CI/CD pipelines. Integration with GitHub (or Cloud Source Repositories) for source control is assumed.
+- **GenAI Tool**: You are required to demonstrate the use of a GenAI tool (e.g., GitHub Copilot) during your development process. Document specific instances where it assisted you.
+- **Database**: Cloud SQL for PostgreSQL for both services' databases.
+- **Caching**: Memorystore for Redis for the PCS caching layer.
+- **Messaging**: Cloud Pub/Sub for asynchronous order events.
+- **Load Balancing**: Global External HTTP(S) Load Balancer for external access.
+- **Networking**: Private networking between components as much as possible.
+
+---
+
+### The Challenge Tasks
+
+#### Architectural Design & Justification
+
+- **High-Level Architecture Diagram**:
+  Create a detailed architecture diagram (e.g., using Google Cloud's official iconography) showcasing all major GCP components, network flows, and interactions between services.
+
+- **Service Selection Justification**:
+  For each major GCP service chosen (GKE, Cloud SQL, Memorystore, Pub/Sub, Load Balancer, etc.), provide a concise justification for its selection based on the NFRs and constraints. Explain why it's a suitable choice over potential alternatives (e.g., why Cloud SQL over self-managed PostgreSQL on GCE).
+
+- **Reliability & HA Strategy**:
+  Detail your strategy for achieving 99.95% availability, specifically addressing:
+  - Zonal redundancy for GKE workloads and stateful services.
+  - Database failover and backup strategy.
+  - Caching layer resilience.
+  - Messaging system guarantees.
+  - Deployment strategies (e.g., Blue/Green, Canary) to minimize downtime during updates.
+
+- **Security Posture**:
+  Outline key security considerations for the entire infrastructure, including:
+  - VPC Network design (subnets, firewall rules).
+  - Service Account permissions and least privilege.
+  - Secret management strategy (e.g., Secret Manager).
+  - Container image security (e.g., Artifact Registry scanning).
+
+- **Cost Optimization Strategy**:
+  Briefly describe how your design choices contribute to cost-effectiveness while meeting NFRs (e.g., auto-scaling, right-sizing).
+
+### Solution Task 4
+
+#### High-Level Architecture Diagram Description
+
+The architecture includes a frontend Web App that communicates through an API Gateway to two backend services:
+- **Product Catalog Service (PCS)**
+- **Order Processing Service (OPS)**
+
+All components are deployed on **Google Cloud Run** for simplicity and scalability. Services connect to their respective **Cloud SQL (PostgreSQL)** instances.
+A centralized **Monitoring and Logging** solution is set up using **Cloud Operations Suite** (formerly Stackdriver).
+All traffic is routed via Cloud Run’s integrated **Load Balancer**.
+
+![arch-diag](assets/architecture-diagram.png)
+
+#### Service Selection Justification
+
+- **Cloud Run**: Chosen for its simplicity, automatic scaling, and managed environment which reduces operational overhead.
+- **Cloud SQL (PostgreSQL)**: Managed database service with high availability and integrated backups.
+- **Artifact Registry**: Used to store and deploy container images.
+- **Cloud Operations Suite**: Used for built-in monitoring, logging, and tracing without additional setup.
+- **Cloud Load Balancing**: Already integrated with Cloud Run for managed traffic distribution.
+- **GitHub + GitHub Actions**: Used for source control and CI/CD automation, allowing simple integration and fast deployment pipelines.
+
+
+#### Reliability & HA Strategy
+
+- **Database Backups and Redundancy**: Cloud SQL is configured with automated backups and multi-zone redundancy.
+- **Deployment Strategy**: Blue-Green deployments are used to ensure seamless updates and reduce downtime.
+
+#### Security Posture
+
+- **IAM Roles**: Principle of least privilege applied using dedicated service accounts.
+- **Secret Manager**: Used for secure management of credentials and configuration.
+- **HTTPS Traffic Only**: Enforced through the managed load balancer.
+- **Artifact Scanning**: Enabled for container images via Artifact Registry.
+
+#### Cost Optimization Strategy
+
+- **Pay-per-use model** of Cloud Run helps minimize cost at low traffic.
+- **Auto-scaling** reduces waste in idle times.
+- **Managed services** reduce operational overhead and team load.
