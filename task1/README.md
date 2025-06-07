@@ -1,94 +1,75 @@
-# Terraform GitHub Project
+## Task 1: Terraforrrm - GitHub Management
 
-This project uses Terraform to manage GitHub resources. It creates a GitHub repository, a new branch, a team, and adds a collaborator to the repository.
+Manage GitHub resources with Terraform: create a repo, a branch, a team, and add a collaborator.
 
 
+### Files
 
-## Project Structure
+* `main.tf`: Terraform logic
+* `variables.tf`: Input variables
+* `outputs.tf`: Outputs
 
-- `main.tf`: Contains the main Terraform configuration.
-- `variables.tf`: Defines the input variables for the Terraform configuration.
-- `outputs.tf`: Specifies the output values for the Terraform configuration.
+### Requirements
 
-## Prerequisites
+* Terraform installed
+* GitHub Organization
+* GitHub Personal Access Token with:
 
-- Terraform installed on your machine.
-- A GitHub personal access token with the necessary permissions.
+  * **repo** (admin, contents)
+  * **organization** (members, admin)
 
-## Setup Instructions
+### Quick Start
 
-1. Clone this repository.
-2. Navigate to the project directory
-3. Modify the `terraform.tfvars` file to define your variables:
+1. Clone this repo
+2. Edit `terraform.tfvars`:
+
    ```hcl
-   repository_name = "your-repo-name"
-   team_name       = "your-team-name"
-   collaborator    = "collaborator-username"
-   branch_name     = "your-branch-name"
+   repository_name = "your-repo"
+   team_name       = "your-team"
+   collaborator    = "username"
+   branch_name     = "new-branch"
    ```
+3. Run:
 
-4. Initialize Terraform:
-   ```
+   ```bash
    terraform init
-   ```
-
-5. Plan the deployment:
-   ```
    terraform plan
-   ```
-   This command will prompt you to enter the GitHub organization name and your personal access token if they are not provided in your `terraform.tfvars` file or as environment variables. Make sure to have this information ready.
-
-6. Apply the configuration:
-   ```
    terraform apply
    ```
+   The command `terraform plan` will prompt you to enter the GitHub organization name and your personal access token if they are not provided in your `terraform.tfvars` file or as environment variables. Make sure to have this information ready.
 
-## Cleanup
+4. Destroy (optional):
 
-To remove the resources created by this project, run:
-```
-terraform destroy
-```
+   ```bash
+   terraform destroy
+   ```
 
-# Results
+### Results & Evidence
 
-## Token permissions
+* Organization: [View](https://github.com/ssuarezs-devops-2025i-exam)
+* Repository: [View](https://github.com/ssuarezs-devops-2025i-exam/task1-devops-exam)
+* Branch, team, collaborator: Created (see screenshots)
 
-The GitHub personal access token used for this project must include the following permissions:
-
-- **repo**: Full control of private repositories. Required to create repositories, branches, and manage collaborators.
-    - admin
-    - contents
-- **organization**: (Only if you are working within a GitHub organization) Allows management of teams and members.
-    - members
-    - admin
-
-### Generated token
+Generated token
 
 ![Token](../assets/github-token.png)
 
-## Evidence
-
-### Organization created
-
-[View organization on GitHub](https://github.com/ssuarezs-devops-2025i-exam)
+Organization created
 
 ![Organization](../assets/github-org.png)
 
-### Repository created
-
-[View repository on GitHub](https://github.com/ssuarezs-devops-2025i-exam/task1-devops-exam)
+Repository created
 
 ![Repository](../assets/github-repo.png)
 
-### Branch created
+Branch created
 
 ![Branch](../assets/github-branch.png)
 
-### Team created
+Team created
 
 ![Team](../assets/github-team.png)
 
-### Collaborator added
+Collaborator added
 
 ![Collaborator](../assets/github-collaborator.png)
